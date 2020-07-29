@@ -1,19 +1,26 @@
 from craigslist import CraigslistForSale
 from twilio.rest import Client
 import sys
+from datetime import datetime, timedelta
+
 
 def main():
     #CraigslistForSale.show_filters()
-    cl_fs = CraigslistForSale(site='sfbay', filters={'query': 'weber', 'search_distance': 50, 'posted_today' : True})
+    cl_fs = CraigslistForSale(site='sfbay', filters={'query': 'weber', 'search_distance': 50, 'posted_today' : False})
 
     for result in cl_fs.get_results(sort_by='newest'):
 
         price = result['price']
         price = correct_price(price)
+        name = result['name'].lower()
+        list_datetime = result['datetime']
+        cur_listing_time= datetime.strptime(list_datetime, '%Y-%m-%d %H:%M')
+
+        start_time = datetime.today() - timedelta(hours=24)
 
         #print('smoker' in result['name'].lower())
-        if 'weber' in result['name'].lower():
-            print(f"{result['datetime']}, {result['name']}, {price}, {result['url']} ")
+        if 'weber' in name and price < 400 and start_time < cur_listing_time < datetime.now():
+            print(f"{list_datetime}, {name}, {price}, {result['url']} ")
 
 
 def correct_price(price_str: str) -> int:
