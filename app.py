@@ -4,9 +4,9 @@ import sys
 from datetime import datetime, timedelta
 
 
-def main():
+def query(query_str: str, posted_today=True, hours=24, search_distance=50):
     #CraigslistForSale.show_filters()
-    cl_fs = CraigslistForSale(site='sfbay', filters={'query': 'weber', 'search_distance': 50, 'posted_today' : False})
+    cl_fs = CraigslistForSale(site='sfbay', filters={'query': query_str, 'search_distance': search_distance, 'posted_today' : posted_today})
 
     for result in cl_fs.get_results(sort_by='newest'):
 
@@ -14,13 +14,16 @@ def main():
         price = correct_price(price)
         name = result['name'].lower()
         list_datetime = result['datetime']
-        cur_listing_time= datetime.strptime(list_datetime, '%Y-%m-%d %H:%M')
+        cur_listing_time = datetime.strptime(list_datetime, '%Y-%m-%d %H:%M')
 
-        start_time = datetime.today() - timedelta(hours=24)
+        start_time = datetime.today() - timedelta(hours=hours)
 
         #print('smoker' in result['name'].lower())
         if 'weber' in name and price < 400 and start_time < cur_listing_time < datetime.now():
-            print(f"{list_datetime}, {name}, {price}, {result['url']} ")
+            message= f"{list_datetime}, {name}, ${price}, {result['url']}"
+            print(message)
+            send_sms(message)
+
 
 
 def correct_price(price_str: str) -> int:
@@ -47,4 +50,4 @@ def send_sms(message):
 
 if __name__ == '__main__':
 
-    main()
+    query('weber', 75, 12, True)
