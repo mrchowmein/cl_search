@@ -1,3 +1,11 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+
+__author__='Jason Chan'
+__version__='0.1.0'
+"""
+
 from craigslist import CraigslistForSale
 from twilio.rest import Client
 import sys
@@ -10,17 +18,15 @@ def query(query_str: str, posted_today=True, hours=24, search_distance=50):
 
     for result in cl_fs.get_results(sort_by='newest'):
 
-        price = result['price']
-        price = correct_price(price)
+        price = correct_price(result['price'])
         name = result['name'].lower()
         list_datetime = result['datetime']
         cur_listing_time = datetime.strptime(list_datetime, '%Y-%m-%d %H:%M')
-
         start_time = datetime.today() - timedelta(hours=hours)
 
         #print('smoker' in result['name'].lower())
         if 'weber' in name and price < 400 and start_time < cur_listing_time < datetime.now():
-            message= f"{list_datetime}, {name}, ${price}, {result['url']}"
+            message = f"{list_datetime}, {name}, ${price}, {result['url']}"
             print(message)
             send_sms(message)
 
@@ -33,6 +39,7 @@ def correct_price(price_str: str) -> int:
         price = 0
 
     return price
+
 
 def send_sms(message):
     account_sid = sys.argv[1]
@@ -47,6 +54,7 @@ def send_sms(message):
     )
 
     print(message.sid)
+
 
 if __name__ == '__main__':
 
