@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-
+cl_scraper is built around craigslist library to simplify querying and sms messaging when
+desired listings are found.
 __author__='Jason Chan'
 __version__='0.1.0'
 """
