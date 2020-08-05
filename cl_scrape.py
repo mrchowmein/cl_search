@@ -37,7 +37,7 @@ def query(query_str: str, words_in_title: list, category : str, price_limit : fl
         if any(item in name for item in words_in_title) and start_time < cur_listing_time < datetime.now():
 
             message = [id, list_datetime, name, f'${price}', result['url'], category]
-            print(message)
+            print("insert "+message)
             insert_to_db(message)
 
             #send txt if meets price limit
@@ -83,7 +83,7 @@ def insert_to_db(message: str):
 
 
 if __name__ == '__main__':
-
+    #print(os.environ['TW_ID'])
     query('weber smokey mountain', ['smokey mountain', 'smoker', 'wsm'], 'smoker', 200, True, 1, 100)
     connection = sqlite3.connect("cl.db")
     cursor = connection.cursor()
