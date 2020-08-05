@@ -12,6 +12,7 @@ from twilio.rest import Client
 import sys
 from datetime import datetime, timedelta
 import sqlite3
+import os
 
 
 def query(query_str: str, words_in_title: list, category : str, price_limit : float, posted_today=True, hours=24, search_distance=50):
@@ -56,15 +57,15 @@ def correct_price(price_str: str) -> int:
 
 
 def send_sms(message):
-    account_sid = sys.argv[1]
-    auth_token = sys.argv[2]
+    account_sid = os.environ['TW_ID']
+    auth_token = os.environ['TW_TOKEN']
 
     client = Client(account_sid, auth_token)
 
     message = client.messages.create(
-        from_=sys.argv[4],
+        from_=os.environ['FROM_NUM'],
         body=message,
-        to=sys.argv[3]
+        to=os.environ['TO_NUM']
     )
 
     print(message.sid)
