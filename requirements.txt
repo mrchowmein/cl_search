@@ -5,7 +5,7 @@ bsdiff4==1.1.9
 certifi==2020.4.5.1
 cffi==1.13.2
 chardet==3.0.4
-cryptography==2.8
+cryptography==3.2
 cycler==0.10.0
 Django==3.0.7
 dnspython==1.16.0
