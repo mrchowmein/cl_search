@@ -15,7 +15,7 @@ matplotlib==3.2.1
 mysql-connector-python==8.0.19
 numpy==1.18.4
 pandas==1.0.3
-paramiko==2.7.0
+paramiko==2.10.1
 plotly==4.7.0
 protobuf==3.6.1
 pycparser==2.19
